@@ -1,8 +1,6 @@
 package com.medoshin.lectures.javalab.springcore.dao;
 
 import com.medoshin.lectures.javalab.springcore.entity.User;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;

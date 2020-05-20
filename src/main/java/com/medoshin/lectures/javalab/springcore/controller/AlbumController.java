@@ -16,7 +16,7 @@ public class AlbumController {
     }
 
     @PostMapping
-    public void addUser(@RequestBody Album album) {
+    public void addAlbum(@RequestBody Album album) {
         iAlbumDAO.add(album);
     }
 
@@ -24,4 +24,20 @@ public class AlbumController {
     public List<Album> getAllAlbums() {
         return iAlbumDAO.getAll();
     }
+
+    @GetMapping("/{id}")
+    public Album getAlbumById(@PathVariable(name = "id") Long id) {
+        return iAlbumDAO.getById(id);
+    }
+
+    @PatchMapping
+    public Album update(@RequestBody Album album, String newAlbumName) {
+        return iAlbumDAO.update(album, newAlbumName);
+    }
+
+    @DeleteMapping
+    void deleteBook(@RequestBody Album album) {
+        iAlbumDAO.remove(album);
+    }
+
 }

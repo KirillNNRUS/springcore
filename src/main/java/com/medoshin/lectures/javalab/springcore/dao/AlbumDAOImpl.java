@@ -2,6 +2,7 @@ package com.medoshin.lectures.javalab.springcore.dao;
 
 import com.medoshin.lectures.javalab.springcore.entity.Album;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,6 +17,7 @@ public class AlbumDAOImpl implements IAlbumDAO {
         this.entityManagerFactory = entityManagerFactory;
     }
 
+    @Transactional
     @Override
     public void add(Album album) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -25,6 +27,7 @@ public class AlbumDAOImpl implements IAlbumDAO {
         entityManager.close();
     }
 
+    @Transactional
     @Override
     public List<Album> getAll() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -33,6 +36,7 @@ public class AlbumDAOImpl implements IAlbumDAO {
         return albumList;
     }
 
+    @Transactional
     @Override
     public Album getById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -72,13 +76,14 @@ public class AlbumDAOImpl implements IAlbumDAO {
     }
 
     @Override
-    public void update(Album album, String newAlbumName) {
+    public Album update(Album album, String newAlbumName) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         album.setAlbumName(newAlbumName);
         entityManager.persist(album);
         entityManager.getTransaction().commit();
         entityManager.close();
+        return album;
     }
 
     @Override

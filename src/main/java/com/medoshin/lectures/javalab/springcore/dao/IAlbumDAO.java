@@ -22,7 +22,7 @@ public interface IAlbumDAO {
     long getIdByName(String name);
 
     @Transactional
-    void update(Album album, String newAlbumName);
+    Album update(Album album, String newAlbumName);
 
     @Transactional
     void remove(Album album);

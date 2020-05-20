@@ -128,15 +128,6 @@ public class UserControllerGlobalMockMvcTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    public void test_TestController() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                .get("/for-mvc")
-                .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
-
     @Configuration
     static class Config {
         @Autowired
