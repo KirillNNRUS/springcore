@@ -15,7 +15,7 @@ public class AlbumController {
         this.iAlbumDAO = iAlbumDAO;
     }
 
-    @PostMapping
+    @PutMapping
     public void addAlbum(@RequestBody Album album) {
         iAlbumDAO.add(album);
     }

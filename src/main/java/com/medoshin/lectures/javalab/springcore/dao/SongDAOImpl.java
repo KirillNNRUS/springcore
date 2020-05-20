@@ -1,6 +1,6 @@
 package com.medoshin.lectures.javalab.springcore.dao;
 
-import com.medoshin.lectures.javalab.springcore.entity.Album;
+import com.medoshin.lectures.javalab.springcore.entity.Song;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,20 +10,20 @@ import javax.persistence.NoResultException;
 import java.util.List;
 
 @Component
-public class AlbumDAOImpl implements IAlbumDAO {
+public class SongDAOImpl implements ISongDAO {
     private EntityManagerFactory entityManagerFactory;
 
-    public AlbumDAOImpl(EntityManagerFactory entityManagerFactory) {
+    public SongDAOImpl(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
     }
 
     @Transactional
     @Override
-    public void add(Album album) {
+    public void add(Song song) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        if (!isAlbumExist(album.getAlbumName())) {
+        if (!isSongExist(song.getSongName())) {
             entityManager.getTransaction().begin();
-            entityManager.merge(album);
+            entityManager.merge(song);
             entityManager.getTransaction().commit();
         }
         entityManager.close();
@@ -31,68 +31,68 @@ public class AlbumDAOImpl implements IAlbumDAO {
 
     @Transactional
     @Override
-    public List<Album> getAll() {
+    public List<Song> getAll() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<Album> albumList = entityManager.createNamedQuery("Album.All", Album.class).getResultList();
+        List<Song> songList = entityManager.createNamedQuery("Song.All", Song.class).getResultList();
         entityManager.close();
-        return albumList;
+        return songList;
     }
 
     @Transactional
     @Override
-    public Album getById(Long id) {
+    public Song getById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Album album = null;
+        Song song = null;
         try {
-            album = entityManager.createNamedQuery("Album.getById", Album.class)
+            song = entityManager.createNamedQuery("Song.getById", Song.class)
                     .setParameter("id", id)
                     .getSingleResult();
         } catch (NoResultException e) {
-            System.err.println(e.toString() + " Album ID " + id);
+            System.err.println(e.toString() + " Song ID " + id);
         } finally {
             entityManager.close();
         }
-        return album;
+        return song;
     }
 
     @Override
-    public boolean isAlbumExist(String name) {
+    public boolean isSongExist(String name) {
         return getIdByName(name) != 0;
     }
 
     @Override
     public long getIdByName(String name) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        long albumId = 0;
+        long songId = 0;
         try {
-            albumId = entityManager.createNamedQuery("Album.getIdByName", Album.class)
+            songId = entityManager.createNamedQuery("Song.getIdByName", Song.class)
                     .setParameter("name", name.trim().toUpperCase())
                     .getSingleResult().getId();
         } catch (NoResultException e) {
-            System.err.println(e.toString() + " Album " + name);
+            System.err.println(e.toString() + " Song " + name);
         } finally {
             entityManager.close();
         }
 
-        return albumId;
+        return songId;
     }
 
     @Override
-    public Album update(Album album, String newAlbumName) {
+    public Song update(Song song, String newSongName) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        album.setAlbumName(newAlbumName);
-        entityManager.persist(album);
+        song.setSongName(newSongName);
+        entityManager.persist(song);
         entityManager.getTransaction().commit();
         entityManager.close();
-        return album;
+        return song;
     }
 
     @Override
-    public void remove(Album album) {
+    public void remove(Song song) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.remove(album);
+        entityManager.remove(song);
         entityManager.getTransaction().commit();
         entityManager.close();
     }
