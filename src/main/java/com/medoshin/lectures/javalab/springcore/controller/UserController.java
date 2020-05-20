@@ -3,11 +3,7 @@ package com.medoshin.lectures.javalab.springcore.controller;
 import com.medoshin.lectures.javalab.springcore.dao.UserDao;
 import com.medoshin.lectures.javalab.springcore.entity.User;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.List;
 
