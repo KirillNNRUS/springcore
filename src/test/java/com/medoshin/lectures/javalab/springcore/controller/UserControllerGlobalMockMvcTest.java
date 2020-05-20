@@ -48,9 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {
-        UserControllerTest.Config.class,
         UserController.class,
-        TestController.class
 })
 @WebAppConfiguration
 @EnableWebMvc
