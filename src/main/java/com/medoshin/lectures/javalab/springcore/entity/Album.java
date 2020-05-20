@@ -10,7 +10,7 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "Album.All", query = "SELECT a FROM Album a "),
         @NamedQuery(name = "Album.getById", query = "SELECT a FROM Album a WHERE a.id = :id"),
-        @NamedQuery(name = "Album.getIdByName", query = "SELECT a FROM Album a WHERE a.albumName = :name"),
+        @NamedQuery(name = "Album.getByName", query = "SELECT a FROM Album a WHERE a.albumName = :name"),
 })
 public class Album implements Serializable {
     public Album() {

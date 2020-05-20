@@ -65,7 +65,7 @@ public class AlbumDAOImpl implements IAlbumDAO {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         long albumId = 0;
         try {
-            albumId = entityManager.createNamedQuery("Album.getIdByName", Album.class)
+            albumId = entityManager.createNamedQuery("Album.getByName", Album.class)
                     .setParameter("name", name.trim().toUpperCase())
                     .getSingleResult().getId();
         } catch (NoResultException e) {
@@ -77,23 +77,41 @@ public class AlbumDAOImpl implements IAlbumDAO {
         return albumId;
     }
 
+    @Transactional
     @Override
     public Album update(Album album, String newAlbumName) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        album.setAlbumName(newAlbumName);
-        entityManager.persist(album);
-        entityManager.getTransaction().commit();
-        entityManager.close();
-        return album;
+        Album newAlbum = null;
+        try {
+            newAlbum = entityManager.createNamedQuery("Album.getByName", Album.class)
+                    .setParameter("name", album.getAlbumName())
+                    .getSingleResult();
+            newAlbum.setAlbumName(newAlbumName);
+            entityManager.merge(newAlbum);
+        } catch (NoResultException e) {
+            System.err.println(e.toString() + " Album name " + album.getAlbumName());
+        } finally {
+            entityManager.close();
+        }
+        return newAlbum;
     }
 
+    @Transactional
     @Override
     public void remove(Album album) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.remove(album);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        Album delAlbum = null;
+        try {
+            entityManager.getTransaction().begin();
+            delAlbum = entityManager.createNamedQuery("Album.getByName", Album.class)
+                    .setParameter("name", album.getAlbumName())
+                    .getSingleResult();
+            entityManager.remove(delAlbum);
+            entityManager.getTransaction().commit();
+        } catch (NoResultException e) {
+            System.err.println(e.toString() + " Album name " + album.getAlbumName());
+        } finally {
+            entityManager.close();
+        }
     }
 }
