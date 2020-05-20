@@ -79,21 +79,23 @@ public class AlbumDAOImpl implements IAlbumDAO {
 
     @Transactional
     @Override
-    public Album update(Album album, String newAlbumName) {
+    public void update(String oldAlbumName, String newAlbumName) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Album newAlbum = null;
         try {
+            entityManager.getTransaction().begin();
             newAlbum = entityManager.createNamedQuery("Album.getByName", Album.class)
-                    .setParameter("name", album.getAlbumName())
+                    .setParameter("name", oldAlbumName.trim().toUpperCase())
                     .getSingleResult();
+            System.out.println(newAlbum);
             newAlbum.setAlbumName(newAlbumName);
             entityManager.merge(newAlbum);
+            entityManager.getTransaction().commit();
         } catch (NoResultException e) {
-            System.err.println(e.toString() + " Album name " + album.getAlbumName());
+            System.err.println(e.toString() + " Album name " + oldAlbumName);
         } finally {
             entityManager.close();
         }
-        return newAlbum;
     }
 
     @Transactional

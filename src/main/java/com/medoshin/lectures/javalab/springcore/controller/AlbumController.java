@@ -30,9 +30,12 @@ public class AlbumController {
         return iAlbumDAO.getById(id);
     }
 
-    @PatchMapping
-    public Album update(@RequestBody Album album, String newAlbumName) {
-        return iAlbumDAO.update(album, newAlbumName);
+    /*
+    Конечно извращение, но как передать это через JSON пока не нашел
+     */
+    @PatchMapping("/{oldAlbumName}-{newAlbumName}")
+    public void update(@PathVariable(name = "oldAlbumName") String oldAlbumName, @PathVariable(name = "newAlbumName") String newAlbumName) {
+        iAlbumDAO.update(oldAlbumName, newAlbumName);
     }
 
     @DeleteMapping
