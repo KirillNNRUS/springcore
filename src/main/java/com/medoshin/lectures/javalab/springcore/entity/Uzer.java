@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 @Entity
 @Table
-public class User implements Serializable {
+public class Uzer implements Serializable {
     @Id
     @GeneratedValue
     private int id;
@@ -14,10 +14,10 @@ public class User implements Serializable {
     @Column
     private int age;
 
-    public User() {
+    public Uzer() {
     }
 
-    public User(String name, int age) {
+    public Uzer(String name, int age) {
         this.name = name;
         this.age = age;
     }
@@ -49,9 +49,9 @@ public class User implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
+        if (!(o instanceof Uzer)) return false;
 
-        User user = (User) o;
+        Uzer user = (Uzer) o;
 
         return id == user.id;
     }

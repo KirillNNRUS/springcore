@@ -1,9 +1,9 @@
 package com.medoshin.lectures.javalab.springcore.dao;
 
-import com.medoshin.lectures.javalab.springcore.entity.User;
+import com.medoshin.lectures.javalab.springcore.entity.Uzer;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface UserDao {
+public interface UzerDAO {
     @Transactional
-    User getUserById(Integer id);
+    Uzer getUserById(Integer id);
 }

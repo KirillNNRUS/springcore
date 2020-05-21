@@ -39,7 +39,7 @@ public class AlbumController {
     }
 
     @DeleteMapping
-    void deleteBook(@RequestBody Album album) {
+    public void deleteBook(@RequestBody Album album) {
         iAlbumDAO.remove(album);
     }
 

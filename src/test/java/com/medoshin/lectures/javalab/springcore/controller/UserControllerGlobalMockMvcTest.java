@@ -1,9 +1,9 @@
 package com.medoshin.lectures.javalab.springcore.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.medoshin.lectures.javalab.springcore.dao.UserDao;
-import com.medoshin.lectures.javalab.springcore.dao.UserDaoImpl;
-import com.medoshin.lectures.javalab.springcore.entity.User;
+import com.medoshin.lectures.javalab.springcore.dao.UzerDAO;
+import com.medoshin.lectures.javalab.springcore.dao.UzerDAOImpl;
+import com.medoshin.lectures.javalab.springcore.entity.Uzer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -48,7 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {
-        UserController.class,
+        UzerController.class,
 })
 @WebAppConfiguration
 @EnableWebMvc
@@ -69,7 +69,7 @@ public class UserControllerGlobalMockMvcTest {
     private DataSource dataSource;
 
     @Autowired
-    private UserDao userDao;
+    private UzerDAO uzerDAO;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -102,7 +102,7 @@ public class UserControllerGlobalMockMvcTest {
 
     @Test
     public void if_correctRequestForGetUserById_when_createRightResponse() throws Exception {
-        User userStub = new User();
+        Uzer userStub = new Uzer();
         int userId = 1;
         userStub.setName("John");
 
@@ -117,7 +117,7 @@ public class UserControllerGlobalMockMvcTest {
     @Test
     public void if_correctRequestForAddUser_when_processRequestRightly() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(new User("John", 100));
+        String json = mapper.writeValueAsString(new Uzer("John", 100));
         mockMvc.perform(MockMvcRequestBuilders
                 .post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -132,8 +132,8 @@ public class UserControllerGlobalMockMvcTest {
         private Environment env;
 
         @Bean("userDao")
-        public UserDaoImpl userDao(EntityManagerFactory entityManagerFactory) {
-            return new UserDaoImpl(entityManagerFactory);
+        public UzerDAOImpl userDao(EntityManagerFactory entityManagerFactory) {
+            return new UzerDAOImpl(entityManagerFactory);
         }
 
         @Bean("entityManagerFactory")

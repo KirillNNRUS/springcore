@@ -1,25 +1,25 @@
 package com.medoshin.lectures.javalab.springcore.dao;
 
-import com.medoshin.lectures.javalab.springcore.entity.User;
+import com.medoshin.lectures.javalab.springcore.entity.Uzer;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-public class UserDaoImpl implements UserDao {
+public class UzerDAOImpl implements UzerDAO {
     private EntityManagerFactory entityManagerFactory;
 
-    public UserDaoImpl(EntityManagerFactory entityManagerFactory) {
+    public UzerDAOImpl(EntityManagerFactory entityManagerFactory) {
         this.entityManagerFactory = entityManagerFactory;
     }
 
     @Transactional
     @Override
-    public User getUserById(Integer id) {
+    public Uzer getUserById(Integer id) {
         EntityManager em = entityManagerFactory.createEntityManager();
 //        em.getTransaction().begin();
-        User result = (User) em
-                .createQuery("From User as u where u.id= ?1", User.class)
+        Uzer result = (Uzer) em
+                .createQuery("From User as u where u.id= ?1", Uzer.class)
                 .setParameter(1, id)
                 .getResultList().get(0);
 //        em.getTransaction().commit();

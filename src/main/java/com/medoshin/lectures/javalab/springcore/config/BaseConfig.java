@@ -1,7 +1,7 @@
 package com.medoshin.lectures.javalab.springcore.config;
 
-import com.medoshin.lectures.javalab.springcore.dao.UserDao;
-import com.medoshin.lectures.javalab.springcore.dao.UserDaoImpl;
+import com.medoshin.lectures.javalab.springcore.dao.UzerDAO;
+import com.medoshin.lectures.javalab.springcore.dao.UzerDAOImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -21,7 +21,7 @@ public class BaseConfig {
     }
 
     @Bean
-    public UserDao userDao(EntityManagerFactory entityManagerFactory) {
-        return new UserDaoImpl(entityManagerFactory);
+    public UzerDAO userDao(EntityManagerFactory entityManagerFactory) {
+        return new UzerDAOImpl(entityManagerFactory);
     }
 }

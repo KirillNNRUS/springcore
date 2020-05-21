@@ -39,7 +39,7 @@ public class SongController {
     }
 
     @DeleteMapping
-    void deleteSong(@RequestBody Song song) {
+    public void deleteSong(@RequestBody Song song) {
         iSongDAO.remove(song);
     }
 
