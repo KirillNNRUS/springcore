@@ -21,7 +21,7 @@ public class AlbumDAOImpl implements IAlbumDAO {
     @Override
     public void add(Album album) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        if (!isAlbumExist(album.getAlbumName())) {
+        if (!isAlbumExist(album.getName())) {
             entityManager.getTransaction().begin();
             entityManager.merge(album);
             entityManager.getTransaction().commit();
@@ -55,11 +55,13 @@ public class AlbumDAOImpl implements IAlbumDAO {
         return album;
     }
 
+    @Transactional
     @Override
     public boolean isAlbumExist(String name) {
         return getIdByName(name) != 0;
     }
 
+    @Transactional
     @Override
     public long getIdByName(String name) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -88,7 +90,7 @@ public class AlbumDAOImpl implements IAlbumDAO {
                     .setParameter("name", oldAlbumName.trim().toUpperCase())
                     .getSingleResult();
             System.out.println(newAlbum);
-            newAlbum.setAlbumName(newAlbumName);
+            newAlbum.setName(newAlbumName);
             entityManager.merge(newAlbum);
             entityManager.getTransaction().commit();
         } catch (NoResultException e) {
@@ -106,12 +108,12 @@ public class AlbumDAOImpl implements IAlbumDAO {
         try {
             entityManager.getTransaction().begin();
             delAlbum = entityManager.createNamedQuery("Album.getByName", Album.class)
-                    .setParameter("name", album.getAlbumName())
+                    .setParameter("name", album.getName())
                     .getSingleResult();
             entityManager.remove(delAlbum);
             entityManager.getTransaction().commit();
         } catch (NoResultException e) {
-            System.err.println(e.toString() + " Album name " + album.getAlbumName());
+            System.err.println(e.toString() + " Album name " + album.getName());
         } finally {
             entityManager.close();
         }

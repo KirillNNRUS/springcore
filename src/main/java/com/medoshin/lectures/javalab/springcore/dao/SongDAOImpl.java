@@ -21,7 +21,7 @@ public class SongDAOImpl implements ISongDAO {
     @Override
     public void add(Song song) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        if (!isSongExist(song.getSongName())) {
+        if (!isSongExist(song.getName())) {
             entityManager.getTransaction().begin();
             entityManager.merge(song);
             entityManager.getTransaction().commit();
@@ -55,17 +55,19 @@ public class SongDAOImpl implements ISongDAO {
         return song;
     }
 
+    @Transactional
     @Override
     public boolean isSongExist(String name) {
         return getIdByName(name) != 0;
     }
 
+    @Transactional
     @Override
     public long getIdByName(String name) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         long songId = 0;
         try {
-            songId = entityManager.createNamedQuery("Song.getIdByName", Song.class)
+            songId = entityManager.createNamedQuery("Song.getByName", Song.class)
                     .setParameter("name", name.trim().toUpperCase())
                     .getSingleResult().getId();
         } catch (NoResultException e) {
@@ -77,23 +79,43 @@ public class SongDAOImpl implements ISongDAO {
         return songId;
     }
 
+    @Transactional
     @Override
-    public Song update(Song song, String newSongName) {
+    public void update(String oldSongName, String newSongName) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        song.setSongName(newSongName);
-        entityManager.persist(song);
-        entityManager.getTransaction().commit();
-        entityManager.close();
-        return song;
+        Song newSong = null;
+        try {
+            entityManager.getTransaction().begin();
+            newSong = entityManager.createNamedQuery("Song.getByName", Song.class)
+                    .setParameter("name", oldSongName.trim().toUpperCase())
+                    .getSingleResult();
+            System.out.println(newSong);
+            newSong.setName(newSongName);
+            entityManager.merge(newSong);
+            entityManager.getTransaction().commit();
+        } catch (NoResultException e) {
+            System.err.println(e.toString() + " Song name " + oldSongName);
+        } finally {
+            entityManager.close();
+        }
     }
 
+    @Transactional
     @Override
     public void remove(Song song) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.remove(song);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        Song delSong = null;
+        try {
+            entityManager.getTransaction().begin();
+            delSong = entityManager.createNamedQuery("Song.getByName", Song.class)
+                    .setParameter("name", song.getName())
+                    .getSingleResult();
+            entityManager.remove(delSong);
+            entityManager.getTransaction().commit();
+        } catch (NoResultException e) {
+            System.err.println(e.toString() + " Song name " + song.getName());
+        } finally {
+            entityManager.close();
+        }
     }
 }

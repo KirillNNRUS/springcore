@@ -10,14 +10,14 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "Album.All", query = "SELECT a FROM Album a "),
         @NamedQuery(name = "Album.getById", query = "SELECT a FROM Album a WHERE a.id = :id"),
-        @NamedQuery(name = "Album.getByName", query = "SELECT a FROM Album a WHERE a.albumName = :name"),
+        @NamedQuery(name = "Album.getByName", query = "SELECT a FROM Album a WHERE a.name = :name"),
 })
 public class Album implements Serializable {
     public Album() {
     }
 
-    public Album(String albumName) {
-        this.albumName = albumName.trim().toUpperCase();
+    public Album(String name) {
+        this.name = name.trim().toUpperCase();
     }
 
     @Id
@@ -26,7 +26,7 @@ public class Album implements Serializable {
     private long id;
 
     @Column(nullable = false, unique = true)
-    private String albumName;
+    private String name;
 
     public long getId() {
         return id;
@@ -36,19 +36,19 @@ public class Album implements Serializable {
         this.id = id;
     }
 
-    public String getAlbumName() {
-        return albumName;
+    public String getName() {
+        return name;
     }
 
-    public void setAlbumName(String albumName) {
-        this.albumName = albumName.trim().toUpperCase();
+    public void setName(String albumName) {
+        this.name = albumName.trim().toUpperCase();
     }
 
     @Override
     public String toString() {
         return "Album{" +
                 "id=" + id +
-                ", albumName='" + albumName + '\'' +
+                ", albumName='" + name + '\'' +
                 '}';
     }
 
@@ -58,11 +58,11 @@ public class Album implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Album album = (Album) o;
         return id == album.id &&
-                albumName.equals(album.albumName);
+                name.equals(album.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, albumName);
+        return Objects.hash(id, name);
     }
 }

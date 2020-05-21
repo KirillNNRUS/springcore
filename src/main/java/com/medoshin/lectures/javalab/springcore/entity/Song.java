@@ -10,14 +10,14 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name = "Song.All", query = "SELECT s FROM Song s "),
         @NamedQuery(name = "Song.getById", query = "SELECT s FROM Song s WHERE s.id = :id"),
-        @NamedQuery(name = "Song.getIdByName", query = "SELECT s FROM Song s WHERE s.songName = :name"),
+        @NamedQuery(name = "Song.getByName", query = "SELECT s FROM Song s WHERE s.name = :name"),
 })
 public class Song implements Serializable {
     public Song() {
     }
 
-    public Song(String songName) {
-        this.songName = songName.trim().toUpperCase();
+    public Song(String name) {
+        this.name = name.trim().toUpperCase();
     }
 
     @Id
@@ -26,7 +26,7 @@ public class Song implements Serializable {
     private long id;
 
     @Column(nullable = false, unique = true)
-    private String songName;
+    private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Album album;
@@ -47,19 +47,19 @@ public class Song implements Serializable {
         this.id = id;
     }
 
-    public String getSongName() {
-        return songName;
+    public String getName() {
+        return name;
     }
 
-    public void setSongName(String songName) {
-        this.songName = songName.trim().toUpperCase();
+    public void setName(String songName) {
+        this.name = songName.trim().toUpperCase();
     }
 
     @Override
     public String toString() {
         return "Song{" +
                 "id=" + id +
-                ", songName='" + songName + '\'' +
+                ", songName='" + name + '\'' +
                 ", album=" + album +
                 '}';
     }
@@ -70,12 +70,12 @@ public class Song implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Song song = (Song) o;
         return id == song.id &&
-                songName.equals(song.songName) &&
+                name.equals(song.name) &&
                 Objects.equals(album, song.album);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, songName, album);
+        return Objects.hash(id, name, album);
     }
 }
