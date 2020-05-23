@@ -48,7 +48,7 @@ public class SongDAOImpl implements ISongDAO {
                     .setParameter("id", id)
                     .getSingleResult();
         } catch (NoResultException e) {
-            System.err.println(e.toString() + " Song ID " + id);
+            System.err.println(e.toString() + id);
         } finally {
             entityManager.close();
         }
@@ -65,18 +65,17 @@ public class SongDAOImpl implements ISongDAO {
     @Override
     public long getIdByName(String name) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        long songId = 0;
+        long id = 0;
         try {
-            songId = entityManager.createNamedQuery("Song.getByName", Song.class)
+            id = entityManager.createNamedQuery("Song.getByName", Song.class)
                     .setParameter("name", name.trim().toUpperCase())
                     .getSingleResult().getId();
         } catch (NoResultException e) {
-            System.err.println(e.toString() + " Song " + name);
+            System.err.println(e.toString() + name);
         } finally {
             entityManager.close();
         }
-
-        return songId;
+        return id;
     }
 
     @Transactional
@@ -94,7 +93,7 @@ public class SongDAOImpl implements ISongDAO {
             entityManager.merge(newSong);
             entityManager.getTransaction().commit();
         } catch (NoResultException e) {
-            System.err.println(e.toString() + " Song name " + oldSongName);
+            System.err.println(e.toString() + oldSongName);
         } finally {
             entityManager.close();
         }
@@ -113,7 +112,7 @@ public class SongDAOImpl implements ISongDAO {
             entityManager.remove(delSong);
             entityManager.getTransaction().commit();
         } catch (NoResultException e) {
-            System.err.println(e.toString() + " Song name " + song.getName());
+            System.err.println(e.toString() + song.getName());
         } finally {
             entityManager.close();
         }

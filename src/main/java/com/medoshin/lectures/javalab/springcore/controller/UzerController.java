@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/users")
+@RequestMapping(path = "/uzers")
 public class UzerController {
     private UzerDAO uzerDAO;
 

@@ -48,7 +48,7 @@ public class AlbumDAOImpl implements IAlbumDAO {
                     .setParameter("id", id)
                     .getSingleResult();
         } catch (NoResultException e) {
-            System.err.println(e.toString() + " Album ID " + id);
+            System.err.println(e.toString() + id);
         } finally {
             entityManager.close();
         }
@@ -65,18 +65,17 @@ public class AlbumDAOImpl implements IAlbumDAO {
     @Override
     public long getIdByName(String name) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        long albumId = 0;
+        long id = 0;
         try {
-            albumId = entityManager.createNamedQuery("Album.getByName", Album.class)
+            id = entityManager.createNamedQuery("Album.getByName", Album.class)
                     .setParameter("name", name.trim().toUpperCase())
                     .getSingleResult().getId();
         } catch (NoResultException e) {
-            System.err.println(e.toString() + " Album " + name);
+            System.err.println(e.toString() + name);
         } finally {
             entityManager.close();
         }
-
-        return albumId;
+        return id;
     }
 
     @Transactional
@@ -94,7 +93,7 @@ public class AlbumDAOImpl implements IAlbumDAO {
             entityManager.merge(newAlbum);
             entityManager.getTransaction().commit();
         } catch (NoResultException e) {
-            System.err.println(e.toString() + " Album name " + oldAlbumName);
+            System.err.println(e.toString() + oldAlbumName);
         } finally {
             entityManager.close();
         }
@@ -113,7 +112,7 @@ public class AlbumDAOImpl implements IAlbumDAO {
             entityManager.remove(delAlbum);
             entityManager.getTransaction().commit();
         } catch (NoResultException e) {
-            System.err.println(e.toString() + " Album name " + album.getName());
+            System.err.println(e.toString() + album.getName());
         } finally {
             entityManager.close();
         }
